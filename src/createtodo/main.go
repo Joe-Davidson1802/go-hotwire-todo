@@ -21,7 +21,16 @@ func putTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(t.Title))
+	s := NewTodoStore("plasma-myth-310415", "Todo")
+
+	newT, err := s.PutTodo(r.Context(), t)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	w.Write([]byte(newT.Title))
 }
 
 func main() {

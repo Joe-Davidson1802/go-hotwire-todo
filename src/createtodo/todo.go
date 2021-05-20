@@ -1,9 +1,9 @@
 package main
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "cloud.google.com/go/datastore"
 
 type Todo struct {
-	ID       primitive.ObjectID `bson:"_id"`
-	Title    string             `bson:"title"`
-	Complete bool               `bson:"complete"`
+	ID       *datastore.Key `datastore:"__key__"`
+	Title    string         `datastore:"title"`
+	Complete bool           `datastore:"complete"`
 }
