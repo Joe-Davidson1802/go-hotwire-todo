@@ -18,7 +18,47 @@ func NewTodoStore(proj string, kind string) TodoStore {
 	}
 }
 
-func (t *TodoStore) PutTodo(ctx context.Context, r Todo) (*Todo, error) {
+func (t *TodoStore) PostTodo(ctx context.Context, r *Todo) error {
+	dsClient, err := datastore.NewClient(ctx, t.proj)
+	if err != nil {
+		return err
+	}
+
+	defer dsClient.Close()
+
+	k := datastore.IncompleteKey(t.kind, nil)
+
+	id, err := dsClient.Put(ctx, k, r)
+
+	r.ID = id
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *TodoStore) DeleteTodo(ctx context.Context, id int64) error {
+	dsClient, err := datastore.NewClient(ctx, t.proj)
+	if err != nil {
+		return err
+	}
+
+	defer dsClient.Close()
+
+	k := datastore.IDKey(t.kind, id, nil)
+
+	err = dsClient.Delete(ctx, k)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *TodoStore) GetTodo(ctx context.Context, id int64) (*Todo, error) {
 	dsClient, err := datastore.NewClient(ctx, t.proj)
 	if err != nil {
 		return nil, err
@@ -26,13 +66,70 @@ func (t *TodoStore) PutTodo(ctx context.Context, r Todo) (*Todo, error) {
 
 	defer dsClient.Close()
 
-	k := datastore.NameKey(t.kind, "stringID", nil)
+	k := datastore.IDKey(t.kind, id, nil)
 
-	_, err = dsClient.Put(ctx, k, r)
+	var r Todo
+
+	err = dsClient.Get(ctx, k, &r)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &r, nil
+}
+
+func (t *TodoStore) GetTodos(ctx context.Context, max int) (*[]Todo, error) {
+	dsClient, err := datastore.NewClient(ctx, t.proj)
+	if err != nil {
+		return nil, err
+	}
+
+	defer dsClient.Close()
+
+	var rs []Todo
+
+	q := datastore.NewQuery(t.kind).Limit(max)
+
+	_, err = dsClient.GetAll(ctx, q, &rs)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &rs, nil
+}
+
+func (t *TodoStore) CompleteTodo(ctx context.Context, id int64) (*Todo, error) {
+	r, err := t.GetTodo(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	r.Complete = true
+
+	if err = t.UpdateTodo(ctx, id, r); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func (t *TodoStore) UpdateTodo(ctx context.Context, id int64, r *Todo) error {
+	dsClient, err := datastore.NewClient(ctx, t.proj)
+	if err != nil {
+		return err
+	}
+
+	defer dsClient.Close()
+
+	k := datastore.IDKey(t.kind, id, nil)
+
+	_, err = dsClient.Put(ctx, k, r)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
