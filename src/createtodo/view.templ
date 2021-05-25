@@ -1,0 +1,17 @@
+{% package main %}
+
+{% templ TodoView(t Todo) %}
+<div>
+    {%= t.Title %}
+</div>
+{% endtempl %}
+
+{% templ TodosView(ts []Todo) %}
+    {% if len(ts) == 0 %}
+        <div>{%= "no todos" %}</div>
+    {% else %}
+        {% for _, t := range ts %}
+            {%! TodoView(t) %}
+        {% endfor %}
+    {% endif %}
+{% endtempl %}

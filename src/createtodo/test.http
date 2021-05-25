@@ -1,4 +1,4 @@
-@baseurl = http://localhost:8088
+@baseurl = http://localhost
 
 ###
 

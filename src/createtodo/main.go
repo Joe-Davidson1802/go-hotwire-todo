@@ -126,15 +126,9 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	payload, err := json.Marshal(ts)
+	w.Header().Set("Content-Type", "text/html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(payload)
+	err = TodosView(*ts).Render(r.Context(), w)
 }
 
 func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
@@ -181,6 +175,6 @@ func main() {
 	r.HandleFunc("/get-todos", getTodosHandler).Methods("GET")
 	r.HandleFunc("/complete-todo", completeTodoHandler).Methods("PUT")
 
-	err := http.ListenAndServe(":8088", r)
+	err := http.ListenAndServe(":80", r)
 	log.Fatal(err)
 }
