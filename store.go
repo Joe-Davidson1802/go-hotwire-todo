@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/datastore"
+	"github.com/joe-davidson1802/go-hotwire-site/models"
 )
 
 type TodoStore struct {
@@ -18,7 +19,7 @@ func NewTodoStore(proj string, kind string) TodoStore {
 	}
 }
 
-func (t *TodoStore) PostTodo(ctx context.Context, r *Todo) error {
+func (t *TodoStore) PostTodo(ctx context.Context, r *models.Todo) error {
 	dsClient, err := datastore.NewClient(ctx, t.proj)
 	if err != nil {
 		return err
@@ -58,7 +59,7 @@ func (t *TodoStore) DeleteTodo(ctx context.Context, id int64) error {
 	return nil
 }
 
-func (t *TodoStore) GetTodo(ctx context.Context, id int64) (*Todo, error) {
+func (t *TodoStore) GetTodo(ctx context.Context, id int64) (*models.Todo, error) {
 	dsClient, err := datastore.NewClient(ctx, t.proj)
 	if err != nil {
 		return nil, err
@@ -68,7 +69,7 @@ func (t *TodoStore) GetTodo(ctx context.Context, id int64) (*Todo, error) {
 
 	k := datastore.IDKey(t.kind, id, nil)
 
-	var r Todo
+	var r models.Todo
 
 	err = dsClient.Get(ctx, k, &r)
 
@@ -79,7 +80,7 @@ func (t *TodoStore) GetTodo(ctx context.Context, id int64) (*Todo, error) {
 	return &r, nil
 }
 
-func (t *TodoStore) GetTodos(ctx context.Context, max int) (*[]Todo, error) {
+func (t *TodoStore) GetTodos(ctx context.Context, max int) (*[]models.Todo, error) {
 	dsClient, err := datastore.NewClient(ctx, t.proj)
 	if err != nil {
 		return nil, err
@@ -87,7 +88,7 @@ func (t *TodoStore) GetTodos(ctx context.Context, max int) (*[]Todo, error) {
 
 	defer dsClient.Close()
 
-	var rs []Todo
+	var rs []models.Todo
 
 	q := datastore.NewQuery(t.kind).Limit(max)
 
@@ -100,7 +101,7 @@ func (t *TodoStore) GetTodos(ctx context.Context, max int) (*[]Todo, error) {
 	return &rs, nil
 }
 
-func (t *TodoStore) CompleteTodo(ctx context.Context, id int64) (*Todo, error) {
+func (t *TodoStore) CompleteTodo(ctx context.Context, id int64) (*models.Todo, error) {
 	r, err := t.GetTodo(ctx, id)
 	if err != nil {
 		return nil, err
@@ -115,7 +116,7 @@ func (t *TodoStore) CompleteTodo(ctx context.Context, id int64) (*Todo, error) {
 	return r, nil
 }
 
-func (t *TodoStore) UpdateTodo(ctx context.Context, id int64, r *Todo) error {
+func (t *TodoStore) UpdateTodo(ctx context.Context, id int64, r *models.Todo) error {
 	dsClient, err := datastore.NewClient(ctx, t.proj)
 	if err != nil {
 		return err

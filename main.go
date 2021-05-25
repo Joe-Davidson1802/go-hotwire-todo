@@ -1,21 +1,32 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/schema"
+	"github.com/joe-davidson1802/go-hotwire-site/models"
+	"github.com/joe-davidson1802/go-hotwire-site/views"
 )
 
+var decoder = schema.NewDecoder()
+
 func postTodoHandler(w http.ResponseWriter, r *http.Request) {
-	var t Todo
+	var t models.Todo
 
 	fmt.Println("Received POST to /create-todo")
 
-	err := json.NewDecoder(r.Body).Decode(&t)
+	err := r.ParseForm()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = decoder.Decode(&t, r.PostForm)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -128,7 +139,12 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html")
 
-	err = TodosView(*ts).Render(r.Context(), w)
+	err = views.ListView(*ts).Render(r.Context(), w)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 }
 
 func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
@@ -167,12 +183,24 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(payload)
 }
 
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+
+	err := views.RenderHome().Render(r.Context(), w)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/create-todo", postTodoHandler).Methods("POST")
 	r.HandleFunc("/delete-todo", deleteTodoHandler).Methods("DELETE")
 	r.HandleFunc("/get-todo", getTodoHandler).Methods("GET")
 	r.HandleFunc("/get-todos", getTodosHandler).Methods("GET")
+	r.HandleFunc("/", homeHandler).Methods("GET")
 	r.HandleFunc("/complete-todo", completeTodoHandler).Methods("PUT")
 
 	err := http.ListenAndServe(":80", r)

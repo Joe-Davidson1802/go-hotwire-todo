@@ -1,17 +1,19 @@
-{% package main %}
+{% package views %}
 
-{% templ TodoView(t Todo) %}
+{% import "github.com/joe-davidson1802/go-hotwire-site/models" %}
+
+{% templ renderRow(t models.Todo) %}
 <div>
     {%= t.Title %}
 </div>
 {% endtempl %}
 
-{% templ TodosView(ts []Todo) %}
+{% templ ListView(ts []models.Todo) %}
     {% if len(ts) == 0 %}
         <div>{%= "no todos" %}</div>
     {% else %}
         {% for _, t := range ts %}
-            {%! TodoView(t) %}
+            {%! renderRow(t) %}
         {% endfor %}
     {% endif %}
 {% endtempl %}

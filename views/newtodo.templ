@@ -1,0 +1,7 @@
+{% package views %}
+
+{% templ RenderForm(action string) %}
+    <form action={%= action %} method="POST">
+        <input name="title" />
+    </form>
+{% endtempl %}
