@@ -1,4 +1,4 @@
-module github.com/joe-davidson1802/go-hotwire-site
+module github.com/joe-davidson1802/go-hotwire-todo
 
 go 1.16
 

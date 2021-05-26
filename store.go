@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/datastore"
-	"github.com/joe-davidson1802/go-hotwire-site/models"
+	"github.com/joe-davidson1802/go-hotwire-todo/models"
 )
 
 type TodoStore struct {

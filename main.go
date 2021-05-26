@@ -8,8 +8,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
-	"github.com/joe-davidson1802/go-hotwire-site/models"
-	"github.com/joe-davidson1802/go-hotwire-site/views"
+	"github.com/joe-davidson1802/go-hotwire-todo/models"
+	"github.com/joe-davidson1802/go-hotwire-todo/views"
 )
 
 var decoder = schema.NewDecoder()
