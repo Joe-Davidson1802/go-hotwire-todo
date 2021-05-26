@@ -3,8 +3,8 @@
 {% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
 {% import "strconv" %}
 
-{% templ TodoRow(to models.Todo, action string) %}
-    <turbo-stream action={%= action %} target="todo_lister">
+{% templ TodoRow(to models.Todo, action string, target string) %}
+    <turbo-stream action={%= action %} target={%= target %}>
         <template>
             <tr id={%= "row_" + strconv.Itoa(int(to.ID.ID)) %}>
                 <td>{%= to.Title %}</td>

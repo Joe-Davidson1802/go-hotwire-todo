@@ -42,7 +42,7 @@ func postTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	err = views.TodoRow(t, "append").Render(r.Context(), w)
+	err = views.TodoRow(t, "append", "todo_lister").Render(r.Context(), w)
 }
 
 func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
@@ -168,7 +168,7 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	err = views.TodoRow(*t, "replace").Render(r.Context(), w)
+	err = views.TodoRow(*t, "replace", strconv.Itoa(int(t.ID.ID))).Render(r.Context(), w)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {

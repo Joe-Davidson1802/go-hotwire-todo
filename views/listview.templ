@@ -13,7 +13,7 @@
             </thead>
             <tbody id="todo_lister">
                 {% for _, t := range ts %}
-                    {%! TodoRow(t, "append") %}
+                    {%! TodoRow(t, "append", "todo_lister") %}
                 {% endfor %}
             </tbody>
         </table>
