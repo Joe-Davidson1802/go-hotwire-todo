@@ -14,10 +14,11 @@ RUN go mod download
 
 COPY . /src/.
 
+RUN $(go env GOPATH)/bin/cmd generate
+
 RUN go mod verify
 RUN go mod vendor
 
-RUN $(go env GOPATH)/bin/cmd generate
 RUN go build -o /src/todo
 EXPOSE 80
 CMD ["/src/todo"]
