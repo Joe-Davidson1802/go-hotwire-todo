@@ -33,7 +33,7 @@ func postTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("plasma-myth-310415", "Todo")
+	s := NewTodoStore("", "Todo")
 
 	if err = s.PostTodo(r.Context(), &t); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
