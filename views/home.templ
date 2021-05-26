@@ -1,6 +1,7 @@
 {% package views %}
 
 {% templ RenderHome() %}
-    <div>{%= "Home" %}</div>
+    <turbo-frame id="todo_lister" src="/get-todos?max=100">
+    </turbo-frame>
     {%! RenderForm("/create-todo") %}
 {% endtempl %}

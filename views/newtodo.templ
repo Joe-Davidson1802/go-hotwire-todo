@@ -2,6 +2,11 @@
 
 {% templ RenderForm(action string) %}
     <form action={%= action %} method="POST">
-        <input name="title" />
+        <div>
+            <label for="title">{%= "Title" %}</label>
+            <div>
+                <input type="text" name="title" id="title" placeholder="Todo..."></input>
+            </div>
+        </div>
     </form>
 {% endtempl %}

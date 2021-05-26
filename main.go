@@ -68,7 +68,7 @@ func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("plasma-myth-310415", "Todo")
+	s := NewTodoStore("", "Todo")
 
 	if err := s.DeleteTodo(r.Context(), int64(id)); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -93,7 +93,7 @@ func getTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("plasma-myth-310415", "Todo")
+	s := NewTodoStore("", "Todo")
 
 	t, err := s.GetTodo(r.Context(), int64(id))
 	if err != nil {
@@ -129,7 +129,7 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("plasma-myth-310415", "Todo")
+	s := NewTodoStore("", "Todo")
 
 	ts, err := s.GetTodos(r.Context(), max)
 	if err != nil {
@@ -139,7 +139,7 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html")
 
-	err = views.Layout(views.ListView(*ts)).Render(r.Context(), w)
+	err = views.Layout("List Todos", views.ListView(*ts)).Render(r.Context(), w)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -164,7 +164,7 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("plasma-myth-310415", "Todo")
+	s := NewTodoStore("", "Todo")
 
 	t, err := s.CompleteTodo(r.Context(), int64(id))
 	if err != nil {
@@ -186,7 +186,7 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	err := views.Layout(views.RenderHome()).Render(r.Context(), w)
+	err := views.Layout("Home", views.RenderHome()).Render(r.Context(), w)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
