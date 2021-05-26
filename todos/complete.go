@@ -36,5 +36,5 @@ func CompleteTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	err = views.TodoRow(*t, "replace", strconv.Itoa(int(t.ID.ID))).Render(r.Context(), w)
+	err = views.TodoRow(*t, "replace", "row_"+strconv.Itoa(int(t.ID.ID))).Render(r.Context(), w)
 }
