@@ -42,7 +42,7 @@ func postTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	err = views.TodoRow(t).Render(r.Context(), w)
+	err = views.TodoRow(t, "append").Render(r.Context(), w)
 }
 
 func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
@@ -166,15 +166,9 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	payload, err := t.MarshalJSON()
+	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(payload)
+	err = views.TodoRow(*t, "replace").Render(r.Context(), w)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {

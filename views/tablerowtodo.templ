@@ -3,15 +3,21 @@
 {% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
 {% import "strconv" %}
 
-{% templ TodoRow(to models.Todo) %}
-    <turbo-stream action="append" target="todo_lister">
+{% templ TodoRow(to models.Todo, action string) %}
+    <turbo-stream action={%= action %} target="todo_lister">
         <template>
             <tr id={%= "row_" + strconv.Itoa(int(to.ID.ID)) %}>
                 <td>{%= to.Title %}</td>
                 {% if to.Complete %}
                     <td>{%= "Y" %}</td>
+                    <td></td>
                 {% else %}
                     <td>{%= "N" %}</td>
+                    <td>
+                        <form action={%= "/complete-todo?id=" + strconv.Itoa(int(to.ID.ID)) %} method="PUT">
+                            <button type="submit">Complete</button>
+                        </form>
+                    </td>
                 {% endif %}
             </tr>
         </template>
