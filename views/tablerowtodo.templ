@@ -10,12 +10,11 @@
                 <td>{%= to.Title %}</td>
                 {% if to.Complete %}
                     <td>{%= "Y" %}</td>
-                    <td></td>
                 {% else %}
                     <td>{%= "N" %}</td>
                     <td>
                         <form action={%= "/complete-todo?id=" + strconv.Itoa(int(to.ID.ID)) %} method="PUT">
-                            <button type="submit">Complete</button>
+                            <button type="submit">{%= "Complete" %}</button>
                         </form>
                     </td>
                 {% endif %}
