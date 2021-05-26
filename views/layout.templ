@@ -1,0 +1,13 @@
+{% package views %}
+
+{% templ Layout(body templ.Component) %}
+<html>
+    <head>
+        <title>{%= "Hotwire Todo" %}</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        {%! body %}
+    </body>
+</html>
+{% endtempl %}

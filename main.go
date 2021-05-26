@@ -139,7 +139,7 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html")
 
-	err = views.ListView(*ts).Render(r.Context(), w)
+	err = views.Layout(views.ListView(*ts)).Render(r.Context(), w)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -186,7 +186,7 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	err := views.RenderHome().Render(r.Context(), w)
+	err := views.Layout(views.RenderHome()).Render(r.Context(), w)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
