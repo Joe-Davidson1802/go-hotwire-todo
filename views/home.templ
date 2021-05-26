@@ -1,7 +1,7 @@
 {% package views %}
 
 {% templ RenderHome() %}
-    <turbo-frame id="todo_lister" src="/get-todos?max=100">
+    <turbo-frame id="todo_table" src="/get-todos?max=100">
     </turbo-frame>
     {%! RenderForm("/create-todo") %}
 {% endtempl %}

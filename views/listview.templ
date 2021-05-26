@@ -3,12 +3,17 @@
 {% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
 
 {% templ ListView(ts []models.Todo) %}
-    <turbo-frame id="todo_lister">
+    <turbo-frame id="todo_table">
         <table>
-            <tr>
-                <th>{%= "Title" %}</th>
-                <th>{%= "Complete?" %}</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>{%= "Title" %}</th>
+                    <th>{%= "Complete?" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody id="todo_lister">
             {% for _, t := range ts %}
                 {%! TodoRow(t) %}
             {% endfor %}
