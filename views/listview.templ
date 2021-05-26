@@ -2,17 +2,6 @@
 
 {% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
 
-{% templ renderRow(to models.Todo) %}
-        <tr>
-            <td>{%= to.Title %}</td>
-            {% if to.Complete %}
-                <td>{%= "Y" %}</td>
-            {% else %}
-                <td>{%= "N" %}</td>
-            {% endif %}
-        </tr>
-{% endtempl %}
-
 {% templ ListView(ts []models.Todo) %}
     <turbo-frame id="todo_lister">
         <table>
@@ -21,7 +10,7 @@
                 <th>{%= "Complete?" %}</th>
             </tr>
             {% for _, t := range ts %}
-                {%! renderRow(t) %}
+                {%! TodoRow(t) %}
             {% endfor %}
         </table>
     </turbo-frame>

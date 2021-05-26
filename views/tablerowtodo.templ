@@ -1,0 +1,18 @@
+{% package views %}
+
+{% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
+
+{% templ TodoRow(to models.Todo) %}
+    <turbo-stream action="append" target="todo_lister">
+        <template>
+            <tr id={%= "row_" + to.ID.String() %}>
+                <td>{%= to.Title %}</td>
+                {% if to.Complete %}
+                    <td>{%= "Y" %}</td>
+                {% else %}
+                    <td>{%= "N" %}</td>
+                {% endif %}
+            </tr>
+        </template>
+    </turbo-stream>
+{% endtempl %}

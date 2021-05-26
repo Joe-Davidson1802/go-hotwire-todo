@@ -40,15 +40,9 @@ func postTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	payload, err := t.MarshalJSON()
+	err = views.TodoRow(t).Render(r.Context(), w)
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(payload)
+	w.Header().Set("Content-Type", "text/html")
 }
 
 func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
