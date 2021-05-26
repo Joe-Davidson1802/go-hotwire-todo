@@ -1,11 +1,12 @@
 {% package views %}
 
 {% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
+{% import "strconv" %}
 
 {% templ TodoRow(to models.Todo) %}
     <turbo-stream action="append" target="todo_lister">
         <template>
-            <tr id={%= "row_" + to.ID.String() %}>
+            <tr id={%= "row_" + strconv.Itoa(int(to.ID.ID)) %}>
                 <td>{%= to.Title %}</td>
                 {% if to.Complete %}
                     <td>{%= "Y" %}</td>
