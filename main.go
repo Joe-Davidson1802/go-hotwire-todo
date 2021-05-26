@@ -42,7 +42,7 @@ func postTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = views.TodoRow(t).Render(r.Context(), w)
 
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 }
 
 func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
