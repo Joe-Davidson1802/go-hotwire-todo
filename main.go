@@ -7,43 +7,10 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/schema"
-	"github.com/joe-davidson1802/go-hotwire-todo/models"
+	"github.com/joe-davidson1802/go-hotwire-todo/store"
+	"github.com/joe-davidson1802/go-hotwire-todo/todos"
 	"github.com/joe-davidson1802/go-hotwire-todo/views"
 )
-
-var decoder = schema.NewDecoder()
-
-func postTodoHandler(w http.ResponseWriter, r *http.Request) {
-	var t models.Todo
-
-	fmt.Println("Received POST to /create-todo")
-
-	err := r.ParseForm()
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	err = decoder.Decode(&t, r.PostForm)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	s := NewTodoStore("", "Todo")
-
-	if err = s.PostTodo(r.Context(), &t); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
-
-	err = views.TodoRow(t, "append", "todo_lister").Render(r.Context(), w)
-}
 
 func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Received DELETE to /delete-todo")
@@ -62,7 +29,7 @@ func deleteTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("", "Todo")
+	s := store.NewTodoStore("", "Todo")
 
 	if err := s.DeleteTodo(r.Context(), int64(id)); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -87,7 +54,7 @@ func getTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("", "Todo")
+	s := store.NewTodoStore("", "Todo")
 
 	t, err := s.GetTodo(r.Context(), int64(id))
 	if err != nil {
@@ -123,7 +90,7 @@ func getTodosHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("", "Todo")
+	s := store.NewTodoStore("", "Todo")
 
 	ts, err := s.GetTodos(r.Context(), max)
 	if err != nil {
@@ -158,7 +125,7 @@ func completeTodoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := NewTodoStore("", "Todo")
+	s := store.NewTodoStore("", "Todo")
 
 	t, err := s.CompleteTodo(r.Context(), int64(id))
 	if err != nil {
@@ -184,7 +151,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/create-todo", postTodoHandler).Methods("POST")
+	r.HandleFunc("/create-todo", todos.PostTodoHandler).Methods("POST")
 	r.HandleFunc("/delete-todo", deleteTodoHandler).Methods("DELETE")
 	r.HandleFunc("/get-todo", getTodoHandler).Methods("GET")
 	r.HandleFunc("/get-todos", getTodosHandler).Methods("GET")
