@@ -10,7 +10,6 @@
             {% else %}
                 <td>{%= "N" %}</td>
             {% endif %}
-            
         </tr>
 {% endtempl %}
 
@@ -21,13 +20,9 @@
                 <th>{%= "Title" %}</th>
                 <th>{%= "Complete?" %}</th>
             </tr>
+            {% for _, t := range ts %}
+                {%! renderRow(t) %}
+            {% endfor %}
         </table>
     </turbo-frame>
-    {% if len(ts) == 0 %}
-        <div>{%= "no todos" %}</div>
-    {% else %}
-        {% for _, t := range ts %}
-            {%! renderRow(t) %}
-        {% endfor %}
-    {% endif %}
 {% endtempl %}
