@@ -11,12 +11,11 @@
                     <th>{%= "Complete?" %}</th>
                 </tr>
             </thead>
-            <tbody>
-
-            </tbody id="todo_lister">
-            {% for _, t := range ts %}
-                {%! TodoRow(t) %}
-            {% endfor %}
+            <tbody id="todo_lister">
+                {% for _, t := range ts %}
+                    {%! TodoRow(t) %}
+                {% endfor %}
+            </tbody>
         </table>
     </turbo-frame>
 {% endtempl %}
