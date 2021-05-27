@@ -35,7 +35,7 @@ func (h TurboHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ct := r.Header.Get("Content-Type")
+	ct := r.Header.Get("Accept")
 
 	if ct == "text/vnd.turbo-stream.html" {
 		err = h.handler.RenderStream(r.Context(), m, w)
