@@ -15,7 +15,7 @@ import (
 type GetAllHandler struct{}
 
 func (h GetAllHandler) CanHandleModel(m string) bool {
-	return m == models.Todo{}.ModelName()
+	return m == models.TodoList{}.ModelName()
 }
 
 func (h GetAllHandler) HandleRequest(w http.ResponseWriter, r *http.Request) (error, models.Model) {
