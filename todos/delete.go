@@ -52,7 +52,7 @@ func (h DeleteHandler) RenderStream(ctx context.Context, m models.Model, w http.
 
 	t := m.(models.TodoId)
 
-	err := views.RemoveTodoRow(t.Value).Render(ctx, w)
+	err := views.RemoveTodoRow(t.Value, true).Render(ctx, w)
 
 	return err
 }

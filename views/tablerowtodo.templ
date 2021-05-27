@@ -22,16 +22,6 @@
         </template>
     </turbo-stream>
     {% if debug %}
-    <turbo-stream action="replace" target="debug">
-        <template>
-            <div id="debug">
-                <pre>
-                    <code>
-                        {%! RawTemplate(TodoRow(to, action, target, false)) %}
-                    </code>
-                </pre>
-            </div>
-        </template>
-    </turbo-stream>
+        {%! TemplateBlock(TodoRow(to, action, target, false)) %}
     {% endif %}
 {% endtempl %}

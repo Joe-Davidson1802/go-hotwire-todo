@@ -1,25 +1,25 @@
 {% package views %}
 
 {% templ Layout(title string, body templ.Component) %}
-<html>
-    <head>
-        <title>{%= "Hotwire Todo - " + title %}</title>
-        <meta charset="utf-8"></meta>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css"></link>
-        <script type="module">{%! Raw("import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';") %}</script>
-    </head>
-    <body>
-        <div>
-            <h2>
-            {%= title %}
-            </h2>
-        </div>
-        {%! body %}
-        <div id="debug">
-            <pre>
-                <code></code>
-            </pre>
-        </div>
-    </body>
-</html>
+    <html>
+        <head>
+            <title>{%= "Hotwire Todo - " + title %}</title>
+            <meta charset="utf-8"></meta>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css"></link>
+            <script type="module">{%! Raw("import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';") %}</script>
+        </head>
+        <body>
+            <div>
+                <h2>
+                {%= title %}
+                </h2>
+            </div>
+            {%! body %}
+            <div id="debug">
+                <pre>
+                    <code></code>
+                </pre>
+            </div>
+        </body>
+    </html>
 {% endtempl %}

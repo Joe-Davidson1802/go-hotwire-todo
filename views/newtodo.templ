@@ -1,6 +1,6 @@
 {% package views %}
 
-{% templ RenderForm(action string) %}
+{% templ RenderForm(action string, debug bool) %}
     <form action={%= action %} method="POST">
         <div>
             <label for="title">{%= "Title" %}</label>
@@ -9,4 +9,7 @@
             </div>
         </div>
     </form>
+    {% if debug %}
+        {%! TemplateBlock(RenderForm(action, false)) %}
+    {% endif %}
 {% endtempl %}

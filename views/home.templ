@@ -3,5 +3,5 @@
 {% templ RenderHome() %}
     <turbo-frame id="todo_table" src="/get-todos?max=100">
     </turbo-frame>
-    {%! RenderForm("/create-todo") %}
+    {%! RenderForm("/create-todo", true) %}
 {% endtempl %}

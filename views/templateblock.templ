@@ -1,0 +1,15 @@
+{% package views %}
+
+{% templ TemplateBlock(b templ.Component) %}
+    <turbo-stream action="replace" target="debug">
+        <template>
+            <div id="debug">
+                <pre>
+                    <code>
+                        {%! RawTemplate(b) %}
+                    </code>
+                </pre>
+            </div>
+        </template>
+    </turbo-stream>
+{% endtempl %}

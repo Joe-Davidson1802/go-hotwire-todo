@@ -18,17 +18,8 @@
             </tbody>
         </table>
     </turbo-frame>
+    
     {% if debug %}
-    <turbo-stream action="replace" target="debug">
-        <template>
-            <div id="debug">
-                <pre>
-                    <code>
-                        {%! RawTemplate(ListView(ts, false)) %}
-                    </code>
-                </pre>
-            </div>
-        </template>
-    </turbo-stream>
+        {%! TemplateBlock(ListView(ts, false)) %}
     {% endif %}
 {% endtempl %}
