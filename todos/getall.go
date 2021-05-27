@@ -2,7 +2,6 @@ package todos
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -21,10 +20,12 @@ func (h GetAllHandler) CanHandleModel(m string) bool {
 func (h GetAllHandler) HandleRequest(w http.ResponseWriter, r *http.Request) (error, models.Model) {
 	fmt.Println("Received GET to /get-todos")
 
+	var max int
+
 	maxParam := r.URL.Query().Get("max")
 
 	if maxParam == "" {
-		return errors.New("id was missing"), nil
+		max = 50
 	}
 
 	max, err := strconv.Atoi(maxParam)
