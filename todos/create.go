@@ -48,9 +48,9 @@ func (h CreateHandler) HandleRequest(w http.ResponseWriter, r *http.Request) (er
 func (h CreateHandler) RenderPage(ctx context.Context, m models.Model, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "text/html")
 
-	t := m.(models.Todo)
+	t := m.(*models.Todo)
 
-	v := views.Layout(t.Title, views.TodoRow(t, "append", "todo_lister", true))
+	v := views.Layout(t.Title, views.TodoRow(*t, "append", "todo_lister", true))
 
 	err := v.Render(ctx, w)
 
@@ -60,9 +60,9 @@ func (h CreateHandler) RenderPage(ctx context.Context, m models.Model, w http.Re
 func (h CreateHandler) RenderStream(ctx context.Context, m models.Model, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	t := m.(models.Todo)
+	t := m.(*models.Todo)
 
-	err := views.TodoRow(t, "append", "todo_lister", true).Render(ctx, w)
+	err := views.TodoRow(*t, "append", "todo_lister", true).Render(ctx, w)
 
 	return err
 }

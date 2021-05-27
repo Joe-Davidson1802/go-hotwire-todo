@@ -46,9 +46,9 @@ func (h CompleteHandler) HandleRequest(w http.ResponseWriter, r *http.Request) (
 func (h CompleteHandler) RenderPage(ctx context.Context, m models.Model, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "text/html")
 
-	t := m.(models.Todo)
+	t := m.(*models.Todo)
 
-	v := views.Layout(t.Title, views.TodoRow(t, "replace", "row_"+strconv.Itoa(int(t.ID.ID)), true))
+	v := views.Layout(t.Title, views.TodoRow(*t, "replace", "row_"+strconv.Itoa(int(t.ID.ID)), true))
 
 	err := v.Render(ctx, w)
 
@@ -58,9 +58,9 @@ func (h CompleteHandler) RenderPage(ctx context.Context, m models.Model, w http.
 func (h CompleteHandler) RenderStream(ctx context.Context, m models.Model, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "text/vnd.turbo-stream.html")
 
-	t := m.(models.Todo)
+	t := m.(*models.Todo)
 
-	err := views.TodoRow(t, "replace", "row_"+strconv.Itoa(int(t.ID.ID)), true).Render(ctx, w)
+	err := views.TodoRow(*t, "replace", "row_"+strconv.Itoa(int(t.ID.ID)), true).Render(ctx, w)
 
 	return err
 }
