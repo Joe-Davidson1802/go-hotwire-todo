@@ -15,7 +15,7 @@ import (
 type DeleteHandler struct{}
 
 func (h DeleteHandler) CanHandleModel(m string) bool {
-	return m == models.Todo{}.ModelName()
+	return m == models.TodoId{}.ModelName()
 }
 
 func (h DeleteHandler) HandleRequest(w http.ResponseWriter, r *http.Request) (error, models.Model) {
