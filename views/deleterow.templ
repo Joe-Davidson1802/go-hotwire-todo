@@ -1,0 +1,6 @@
+{% package views %}
+
+{% templ RemoveTodoRow(td string) %}
+    <turbo-stream action="remove" target={%= "row_"+td %}>
+    </turbo-stream>
+{% endtempl %}

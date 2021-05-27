@@ -27,19 +27,11 @@ func GetTodoHandler(w http.ResponseWriter, r *http.Request) {
 
 	s := store.NewTodoStore("", "Todo")
 
-	t, err := s.GetTodo(r.Context(), int64(id))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	payload, err := t.MarshalJSON()
-
+	_, err = s.GetTodo(r.Context(), int64(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(payload)
 }

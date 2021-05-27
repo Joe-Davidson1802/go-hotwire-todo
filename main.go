@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/joe-davidson1802/go-hotwire-todo/handler"
 	"github.com/joe-davidson1802/go-hotwire-todo/todos"
 	"github.com/joe-davidson1802/go-hotwire-todo/views"
 )
@@ -22,12 +23,12 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/create-todo", todos.PostTodoHandler).Methods("POST")
-	r.HandleFunc("/delete-todo", todos.DeleteTodoHandler).Methods("DELETE")
+	r.Handle("/create-todo", handler.New(todos.CreateHandler{})).Methods("POST")
+	r.Handle("/delete-todo", handler.New(todos.DeleteHandler{})).Methods("DELETE")
 	r.HandleFunc("/get-todo", todos.GetTodoHandler).Methods("GET")
-	r.HandleFunc("/get-todos", todos.GetTodosHandler).Methods("GET")
+	r.Handle("/get-todos", handler.New(todos.GetAllHandler{})).Methods("GET")
 	r.HandleFunc("/", homeHandler).Methods("GET")
-	r.HandleFunc("/complete-todo", todos.CompleteTodoHandler).Methods("PUT")
+	r.Handle("/complete-todo", handler.New(todos.CompleteHandler{})).Methods("PUT")
 
 	err := http.ListenAndServe(":80", r)
 	log.Fatal(err)
