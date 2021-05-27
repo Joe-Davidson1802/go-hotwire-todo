@@ -35,9 +35,17 @@ func (h TurboHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ct := r.Header.Get("Accept")
+	ct := r.Header.Values("Accept")
 
-	if ct == "text/vnd.turbo-stream.html" {
+	stream := false
+
+	for _, h := range ct {
+		if h == "vnd.turbo-stream.html" {
+			stream = true
+		}
+	}
+
+	if stream {
 		err = h.handler.RenderStream(r.Context(), m, w)
 	} else {
 		err = h.handler.RenderPage(r.Context(), m, w)
