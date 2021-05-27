@@ -50,7 +50,7 @@ func (h CreateHandler) RenderPage(ctx context.Context, m models.Model, w http.Re
 
 	t := m.(models.Todo)
 
-	v := views.Layout(t.Title, views.TodoRow(t, "append", "todo_lister"))
+	v := views.Layout(t.Title, views.TodoRow(t, "append", "todo_lister", true))
 
 	err := v.Render(ctx, w)
 
@@ -62,7 +62,7 @@ func (h CreateHandler) RenderStream(ctx context.Context, m models.Model, w http.
 
 	t := m.(models.Todo)
 
-	err := views.TodoRow(t, "append", "todo_lister").Render(ctx, w)
+	err := views.TodoRow(t, "append", "todo_lister", true).Render(ctx, w)
 
 	return err
 }

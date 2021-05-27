@@ -48,7 +48,7 @@ func (h GetAllHandler) RenderPage(ctx context.Context, m models.Model, w http.Re
 
 	t := m.(models.TodoList)
 
-	err := views.Layout("List Todos", views.ListView(*t.Todos)).Render(ctx, w)
+	err := views.Layout("List Todos", views.ListView(*t.Todos, true)).Render(ctx, w)
 
 	return err
 }
@@ -58,7 +58,7 @@ func (h GetAllHandler) RenderStream(ctx context.Context, m models.Model, w http.
 
 	t := m.(models.TodoList)
 
-	err := views.ListView(*t.Todos).Render(ctx, w)
+	err := views.ListView(*t.Todos, true).Render(ctx, w)
 
 	return err
 }

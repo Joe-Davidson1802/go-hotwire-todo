@@ -3,7 +3,7 @@
 {% import "github.com/joe-davidson1802/go-hotwire-todo/models" %}
 {% import "strconv" %}
 
-{% templ TodoRow(to models.Todo, action string, target string) %}
+{% templ TodoRow(to models.Todo, action string, target string, debug bool) %}
     <turbo-stream action={%= action %} target={%= target %}>
         <template>
             <tr id={%= "row_" + strconv.Itoa(int(to.ID.ID)) %}>
@@ -21,4 +21,17 @@
             </tr>
         </template>
     </turbo-stream>
+    {% if debug %}
+    <turbo-stream action="replace" target="debug">
+        <template>
+            <div id="debug">
+                <pre>
+                    <code>
+                        {%! RawTemplate(TodoRow(to, action, target, false)) %}
+                    </code>
+                </pre>
+            </div>
+        </template>
+    </turbo-stream>
+    {% endif %}
 {% endtempl %}
