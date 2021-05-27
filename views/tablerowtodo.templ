@@ -18,6 +18,11 @@
                         </form>
                     </td>
                 {% endif %}
+                <td>
+                    <form action={%= "/delete-todo?id=" + strconv.Itoa(int(to.ID.ID)) %} method="DELETE">
+                        <button style="background-color:#ed7777" type="submit">{%= "X" %}</button>
+                    </form>
+                </td>
             </tr>
         </template>
     </turbo-stream>
