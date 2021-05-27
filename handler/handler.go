@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/joe-davidson1802/go-hotwire-todo/models"
 )
@@ -35,17 +36,9 @@ func (h TurboHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ct := r.Header.Values("Accept")
+	ct := r.Header.Get("Accept")
 
-	stream := false
-
-	for _, h := range ct {
-		if h == "vnd.turbo-stream.html" {
-			stream = true
-		}
-	}
-
-	if stream {
+	if strings.Contains(ct, "vnd.turbo-stream.html") {
 		err = h.handler.RenderStream(r.Context(), m, w)
 	} else {
 		err = h.handler.RenderPage(r.Context(), m, w)
